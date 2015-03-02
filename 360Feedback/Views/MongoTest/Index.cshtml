@@ -1,0 +1,24 @@
+﻿@using _360Feedback.Models;
+@model IEnumerable<Question>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@foreach(Question q in Model)
+{
+    <h3>@q.title</h3>
+    <ul>
+        @foreach(Category c in q.categories)
+        {
+            <li>@c.name</li>
+            <ul>
+                @foreach(string s in c.values)
+                {
+                    <li>@s</li>
+                }
+            </ul>
+        }
+    </ul>
+}
