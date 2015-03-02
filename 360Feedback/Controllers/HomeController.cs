@@ -13,7 +13,7 @@ namespace _360Feedback.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult StudentView()
         {
             ViewBag.Message = "Your application description page.";
 

@@ -1,12 +1,12 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 $(init);
 
 function init() {
     $( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
-    $( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+    $("#tabs li").removeClass("ui-corner-top").addClass("ui-corner-left");
+
+    $('input[name="question1"]:radio').change(function () {
+        $("#desc").html($('input[name=question1]:checked', '#radioQuestion').val());
+    })
 };
 
