@@ -19,9 +19,10 @@ table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
 }
+
+
 th,td {
     padding: 15px;
-
 }
 
 .questions div {
@@ -29,3 +30,20 @@ th,td {
     border-radius:4px;
 }
 
+tr {    background-color:lightskyblue;}
+
+th { background-color:lightgray;}
+
+.title { background-color:lightcyan;}
+
+.green {
+    background-color:#92fc67;
+}
+
+.radioQuestion label{
+    font-weight:normal;
+}
+
+.radioQuestion a:hover {
+    text-decoration:none;
+}
