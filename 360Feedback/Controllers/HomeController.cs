@@ -45,6 +45,7 @@ namespace _360Feedback.Controllers
                     {
                         values.Add(value.ToString());
                     }
+                    values.Reverse();
                     addCategory.values = values;
                     categories.Add(addCategory);
                 }
