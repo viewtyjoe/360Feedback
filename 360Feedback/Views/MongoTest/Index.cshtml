@@ -10,15 +10,17 @@
 {
     <h3>@q.title</h3>
     <ul>
-        @foreach(Category c in q.categories)
+        @foreach (Category c in q.categories)
         {
-            <li>@c.name</li>
-            <ul>
-                @foreach(string s in c.values)
-                {
-                    <li>@s</li>
-                }
-            </ul>
+            <li>
+                @c.name
+                <ul>
+                    @foreach (string s in c.values)
+                    {
+                        <li>@s</li>
+                    }
+                </ul>
+            </li>
         }
     </ul>
 }
