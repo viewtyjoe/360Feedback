@@ -7,6 +7,6 @@ function init() {
 
     $('input[name="question1"]:radio').change(function () {
         $("#desc").html($('input[name=question1]:checked', '#radioQuestion').val());
-    })
+    });
 };
 
