@@ -6,15 +6,14 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
+using MongoLabUtils;
 using _360Feedback.Models;
 
 namespace _360Feedback.Controllers
 {
     public class MongoTestController : Controller
     {
+        private MongoApi Db = new MongoApi { Database = "wctc-360-feedback", ApiKey = "oHIeU1xIFPhPKDrXzkO90gQTWe7wyswW" };
         // GET: MongoTest
         public async Task<ActionResult> Index()
         {
@@ -28,15 +27,15 @@ namespace _360Feedback.Controllers
 
             //var db = database.GetCollection<BsonDocument>("questions").FindAll();
 
-            string url = "https://api.mongolab.com/api/1/databases/wctc-360-feedback/";
-            string key = "oHIeU1xIFPhPKDrXzkO90gQTWe7wyswW";
+            //string url = "https://api.mongolab.com/api/1/databases/wctc-360-feedback/";
+            //string key = "oHIeU1xIFPhPKDrXzkO90gQTWe7wyswW";
 
-            var client = new HttpClient();
-            client.BaseAddress = new Uri(url);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //var client = new HttpClient();
+            //client.BaseAddress = new Uri(url);
+            //client.DefaultRequestHeaders.Accept.Clear();
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = await client.GetAsync("collections/questions?apiKey=" + key);
+            HttpResponseMessage response = await Db.SelectAll("questions");
             if(response.IsSuccessStatusCode)
             {
                 List<Question> questions = await HttpContentExtensions.ReadAsAsync<List<Question>>(response.Content);
@@ -68,6 +67,24 @@ namespace _360Feedback.Controllers
             return View();
         }
 
-  
+        [HttpGet]
+        public ActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Add(TestModel test)
+        {
+            if(test != null)
+            {
+                HttpResponseMessage response = await Db.Write("testing", test);
+                if(response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            return RedirectToAction("Add");
+        }
     }
 }
