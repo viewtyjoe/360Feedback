@@ -34,7 +34,5 @@ function checkAll() {
     if (answeredQuestionCount == formCount) {
         $("#btnSave").prop("disabled", false);
     }
-    console.log(formCount);
-    console.log(answeredQuestionCount);
 }
 
