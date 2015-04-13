@@ -23,9 +23,16 @@ function init() {
         associatedDesc = "#desc" + nameOfRadio.substr(8);
         $(associatedDesc).html($(this).val());
         $(this).closest('tr').addClass("green");
-    })
-
-
+        checkAll();
+    }) 
 
 };
+
+function checkAll() {
+    var formCount = $("form").size() - 1;
+    var answeredQuestionCount = $(".green").size();
+    if (answeredQuestionCount == formCount) {
+        $("#btnSave").prop("disabled", false);
+    }
+}
 
