@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using MongoDB.Bson;
@@ -17,44 +20,48 @@ namespace _360Feedback.Controllers
             return View();
         }
 
-        public ActionResult StudentView()
+        public async Task<ActionResult>  StudentView()
         {
-            string uri = "mongodb://admin:admin@ds049211.mongolab.com:49211/wctc-360-feedback";
+            string url = "https://api.mongolab.com/api/1/databases/wctc-360-feedback/";
+            string key = "oHIeU1xIFPhPKDrXzkO90gQTWe7wyswW";
 
-            MongoUrl mongoUrl = new MongoUrl(uri);
-            MongoClient client = new MongoClient(mongoUrl);
-            MongoServer server = client.GetServer();
-            MongoDatabase database = server.GetDatabase(mongoUrl.DatabaseName);
+            var client = new HttpClient();
+            client.BaseAddress = new Uri(url);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            var db = database.GetCollection<BsonDocument>("questions").FindAll();
-
-            var questions = new List<Question>();
-
-            foreach (var document in db)
+            HttpResponseMessage response = await client.GetAsync("collections/questions?apiKey=" + key);
+            if(response.IsSuccessStatusCode)
             {
-                Question question = new Question();
-                List<Category> categories = new List<Category>();
-                question.title = document.GetElement("title").ToString();
-                foreach (var category in document.GetElement("categories").Value.AsBsonArray)
-                {
-                    Category addCategory = new Category();
-                    var categoryDoc = category.ToBsonDocument();
-                    addCategory.name = categoryDoc.GetElement("name").ToString();
-                    List<string> values = new List<string>();
-                    foreach (var value in categoryDoc.GetElement("values").Value.AsBsonArray)
-                    {
-                        values.Add(value.ToString());
-                    }
-                    values.Reverse();
-                    addCategory.values = values;
-                    categories.Add(addCategory);
-                }
-                question.categories = categories;
-                questions.Add(question);
-            }
+                List<Question> questions = await HttpContentExtensions.ReadAsAsync<List<Question>>(response.Content);
 
-            return View(questions);
+                //foreach(var document in db)
+                //{
+                //    Question question = new Question();
+                //    List<Category> categories = new List<Category>();
+                //    question.title = document.GetElement("title").ToString();
+                //    foreach(var category in document.GetElement("categories").Value.AsBsonArray)
+                //    {
+                //        Category addCategory = new Category();
+                //        var categoryDoc = category.ToBsonDocument();
+                //        addCategory.name = categoryDoc.GetElement("name").ToString();
+                //        List<string> values = new List<string>();
+                //        foreach(var value in categoryDoc.GetElement("values").Value.AsBsonArray)
+                //        {
+                //            values.Add(value.ToString());
+                //        }
+                //        addCategory.values = values;
+                //        categories.Add(addCategory);
+                //    }
+                //    question.categories = categories;
+                //    questions.Add(question);
+                //}
+                questions.Reverse();
+                return View(questions);
+            }
+            return View();
         }
+        
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
