@@ -1,0 +1,30 @@
+﻿@model _360Feedback.Models.EmailModel
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/students.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" />
+
+<h2>Index</h2>
+
+<fieldset>
+    <legend>
+        Send Email
+    </legend>
+
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary()
+        <p>To: </p>
+        <p>@Html.TextBoxFor(m => m.To)</p>     
+        <p>Body: </p>
+        <p>@Html.TextAreaFor(m => m.Body)</p>
+        <input type="submit" name="submit" value="Send" id="btnSave" class="btn btn-lg" />
+    }
+</fieldset>
+
+
+@section Scripts{
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/students.js" type="text/javascript"></script>
+}

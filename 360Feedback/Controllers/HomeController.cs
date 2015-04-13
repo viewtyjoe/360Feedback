@@ -66,7 +66,9 @@ namespace _360Feedback.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
-            return View();
+            return View("EmailIndex.cshtml");
         }
+
+        
     }
 }
