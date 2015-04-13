@@ -21,8 +21,10 @@ namespace _360Feedback.Controllers
             if(ModelState.IsValid) {
                 MailMessage mail = new MailMessage();
                 mail.To.Add(_objModelMail.To);
-                mail.From = new MailAddress(_objModelMail.From);
-                mail.Subject = _objModelMail.Subject;
+                //mail.From = new MailAddress(_objModelMail.From);            
+                mail.From = new MailAddress("wctcemailtest@gmail.com");
+                //mail.Subject = _objModelMail.Subject;
+                mail.Subject = "ISP Team Review";
                 string Body = _objModelMail.Body;
                 mail.Body = Body;
                 mail.IsBodyHtml = true;
@@ -34,6 +36,7 @@ namespace _360Feedback.Controllers
                 smtp.EnableSsl = true;
                 smtp.Send(mail);
                 return View("Index", _objModelMail);
+                
             }else{
                 return View();
             }
