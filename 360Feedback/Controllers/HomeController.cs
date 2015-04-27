@@ -26,7 +26,7 @@ namespace _360Feedback.Controllers
             return View();
         }
 
-        public async Task<ActionResult>  StudentView()
+        public async Task<ActionResult> StudentView()
         {
             string url = "https://api.mongolab.com/api/1/databases/wctc-360-feedback/";
             string key = "oHIeU1xIFPhPKDrXzkO90gQTWe7wyswW";
@@ -37,7 +37,7 @@ namespace _360Feedback.Controllers
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             HttpResponseMessage response = await client.GetAsync("collections/questions?apiKey=" + key);
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 List<Question> questions = await HttpContentExtensions.ReadAsAsync<List<Question>>(response.Content);
 
@@ -67,7 +67,7 @@ namespace _360Feedback.Controllers
             }
             return View();
         }
-        
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -76,16 +76,56 @@ namespace _360Feedback.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendEmail(EmailModel _objModelMail)
+        public ActionResult SendEmailToTeam(Team _team)
+        {
+            if (ModelState.IsValid)
+            {
+                //var studentList = _team.Students.ToList();
+                //foreach (Student student in studentList)
+                //{
+                    MailMessage mail = new MailMessage();
+
+                //Change to student.email
+                    mail.To.Add("barterdm04@gmail.com");
+                    mail.From = new MailAddress("wctcemailtest@gmail.com");
+                    // mail.From = new MailAddress("MGreen14@wctc.edu");
+                    mail.Subject = "ISP Team Review";
+
+                    string Body = "TEST";//GenerateEmailBody(student);
+                    mail.Body = Body;
+                    mail.IsBodyHtml = true;
+                    SmtpClient smtp = new SmtpClient();
+                    smtp.Host = "smtp.gmail.com";
+                    //smtp.Host = "smtp.office365.com";
+                    smtp.Port = 587;
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = new System.Net.NetworkCredential("wctcemailtest@gmail.com", "blackrose7");
+                    // smtp.Credentials = new System.Net.NetworkCredential("MGreen14@wctc.edu", "PASSWORD");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                //}
+                TempData["teamName"] = "Team Email Sent";
+                return RedirectToAction("Index");
+
+            }
+            else
+            {
+                return View();
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult SendEmailToStudent(Student _student)
         {
             if (ModelState.IsValid)
             {
                 MailMessage mail = new MailMessage();
-                mail.To.Add(_objModelMail.To);
+                mail.To.Add(_student.Email);
                 mail.From = new MailAddress("wctcemailtest@gmail.com");
                 // mail.From = new MailAddress("MGreen14@wctc.edu");
                 mail.Subject = "ISP Team Review";
-                string Body = _objModelMail.Body;
+                string Body = GenerateEmailBody(_student);
                 mail.Body = Body;
                 mail.IsBodyHtml = true;
                 SmtpClient smtp = new SmtpClient();
@@ -98,8 +138,8 @@ namespace _360Feedback.Controllers
                 smtp.EnableSsl = true;
                 smtp.Send(mail);
 
-
-                return View("Index", _objModelMail);
+                TempData["studentName"] = "Studnet Email Sent";
+                return RedirectToAction("Index");
 
             }
             else
@@ -109,5 +149,12 @@ namespace _360Feedback.Controllers
 
         }
 
+        public string GenerateEmailBody(Student _student)
+        {
+            String body = "You have been invited to complete a survery on your teammates, please follow the link below to complete the survey: \n";
+            String url = "http://www.studentteamfeedback.com/Student/";
+            body += url;
+            return body;
+        }
     }
 }
