@@ -30,29 +30,54 @@ namespace _360Feedback.Controllers
         public ActionResult StudentView()
         {
             List<Question> questions = Db.Questions.ToList<Question>();
-                //foreach(var document in db)
-                //{
-                //    Question question = new Question();
-                //    List<Category> categories = new List<Category>();
-                //    question.title = document.GetElement("title").ToString();
-                //    foreach(var category in document.GetElement("categories").Value.AsBsonArray)
-                //    {
-                //        Category addCategory = new Category();
-                //        var categoryDoc = category.ToBsonDocument();
-                //        addCategory.name = categoryDoc.GetElement("name").ToString();
-                //        List<string> values = new List<string>();
-                //        foreach(var value in categoryDoc.GetElement("values").Value.AsBsonArray)
-                //        {
-                //            values.Add(value.ToString());
-                //        }
-                //        addCategory.values = values;
-                //        categories.Add(addCategory);
-                //    }
-                //    question.categories = categories;
-                //    questions.Add(question);
-                //}
-                return View(questions);
+            //foreach(var document in db)
+            //{
+            //    Question question = new Question();
+            //    List<Category> categories = new List<Category>();
+            //    question.title = document.GetElement("title").ToString();
+            //    foreach(var category in document.GetElement("categories").Value.AsBsonArray)
+            //    {
+            //        Category addCategory = new Category();
+            //        var categoryDoc = category.ToBsonDocument();
+            //        addCategory.name = categoryDoc.GetElement("name").ToString();
+            //        List<string> values = new List<string>();
+            //        foreach(var value in categoryDoc.GetElement("values").Value.AsBsonArray)
+            //        {
+            //            values.Add(value.ToString());
+            //        }
+            //        addCategory.values = values;
+            //        categories.Add(addCategory);
+            //    }
+            //    question.categories = categories;
+            //    questions.Add(question);
+            //}
+            return View(questions);
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> saveNewTeam()
+        {
+            Team newTeam = new Team();
+            List<Student> studentList = new List<Student>();
+            newTeam.TeamName = Request.Params["teamName"];
+            int studentCount = Int32.Parse(Request.Params["counter"]);
+            for(int i=0;i<studentCount;i++)
+            {
+                Student addStudent = new Student();
+                addStudent.Name = Request.Params["student" + i.ToString()];
+                addStudent.Email = Request.Params["email" + i.ToString()];
+                addStudent.Completed = false;
+                addStudent.Team = newTeam;
             }
+            Db.Teams.Add(newTeam);
+            await Db.SaveChangesAsync();
+            foreach(Student s in studentList)
+            {
+                Db.Students.Add(s);
+            }
+            await Db.SaveChangesAsync();
+            return Redirect("Index");
+        }
         
         public ActionResult Contact()
         {
