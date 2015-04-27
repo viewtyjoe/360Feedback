@@ -55,11 +55,27 @@ namespace _360Feedback.Controllers
         }
         
         [HttpPost]
-        public ActionResult saveNewTeam()
+        public async Task<ActionResult> saveNewTeam()
         {
             Team newTeam = new Team();
+            List<Student> studentList = new List<Student>();
             newTeam.TeamName = Request.Params["teamName"];
             int studentCount = Int32.Parse(Request.Params["counter"]);
+            for(int i=0;i<studentCount;i++)
+            {
+                Student addStudent = new Student();
+                addStudent.Name = Request.Params["student" + i.ToString()];
+                addStudent.Email = Request.Params["email" + i.ToString()];
+                addStudent.Completed = false;
+                addStudent.Team = newTeam;
+            }
+            Db.Teams.Add(newTeam);
+            await Db.SaveChangesAsync();
+            foreach(Student s in studentList)
+            {
+                Db.Students.Add(s);
+            }
+            await Db.SaveChangesAsync();
             return Redirect("Index");
         }
         
