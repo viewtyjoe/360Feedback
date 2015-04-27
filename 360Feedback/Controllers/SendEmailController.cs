@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using _360Feedback.Models;
 
 namespace _360Feedback.Controllers
 {
@@ -16,7 +17,8 @@ namespace _360Feedback.Controllers
         }
 
         [HttpPost]
-        public ViewResult Index(_360Feedback.Models.EmailModel _objModelMail)
+        //public ViewResult Index(_360Feedback.Models.EmailModel _objModelMail)
+        public ViewResult Index(EmailModel _objModelMail)
         {
             if(ModelState.IsValid) {
                 MailMessage mail = new MailMessage();
