@@ -7,13 +7,13 @@ namespace _360Feedback.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class FeedbackDb042715 : IMigrationMetadata
+    public sealed partial class _042715qui : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(FeedbackDb042715));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(_042715qui));
         
         string IMigrationMetadata.Id
         {
-            get { return "201504271732480_FeedbackDb042715"; }
+            get { return "201504272130004_042715qui"; }
         }
         
         string IMigrationMetadata.Source

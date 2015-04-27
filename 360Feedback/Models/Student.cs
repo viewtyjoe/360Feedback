@@ -12,5 +12,7 @@ namespace _360Feedback.Models
         public string Email { get; set; }
         [Required]
         public string Name { get; set; }
+        [Required]
+        public bool Completed { get; set; }
     }
 }

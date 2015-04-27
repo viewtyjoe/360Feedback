@@ -178,9 +178,25 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201504271732480_FeedbackDb042715.cs" />
-    <Compile Include="Migrations\201504271732480_FeedbackDb042715.Designer.cs">
-      <DependentUpon>201504271732480_FeedbackDb042715.cs</DependentUpon>
+    <Compile Include="Migrations\201504272006324_FeedbackDb042715bis.cs" />
+    <Compile Include="Migrations\201504272006324_FeedbackDb042715bis.Designer.cs">
+      <DependentUpon>201504272006324_FeedbackDb042715bis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504272041539_FeedbackDb042715tri.cs" />
+    <Compile Include="Migrations\201504272041539_FeedbackDb042715tri.Designer.cs">
+      <DependentUpon>201504272041539_FeedbackDb042715tri.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504272053189_FeedbackDb042715tri1.cs" />
+    <Compile Include="Migrations\201504272053189_FeedbackDb042715tri1.Designer.cs">
+      <DependentUpon>201504272053189_FeedbackDb042715tri1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504272054034_FeedbackDb042715qua.cs" />
+    <Compile Include="Migrations\201504272054034_FeedbackDb042715qua.Designer.cs">
+      <DependentUpon>201504272054034_FeedbackDb042715qua.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504272130004_042715qui.cs" />
+    <Compile Include="Migrations\201504272130004_042715qui.Designer.cs">
+      <DependentUpon>201504272130004_042715qui.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -281,8 +297,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201504271732480_FeedbackDb042715.resx">
-      <DependentUpon>201504271732480_FeedbackDb042715.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201504272006324_FeedbackDb042715bis.resx">
+      <DependentUpon>201504272006324_FeedbackDb042715bis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504272041539_FeedbackDb042715tri.resx">
+      <DependentUpon>201504272041539_FeedbackDb042715tri.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504272053189_FeedbackDb042715tri1.resx">
+      <DependentUpon>201504272053189_FeedbackDb042715tri1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504272054034_FeedbackDb042715qua.resx">
+      <DependentUpon>201504272054034_FeedbackDb042715qua.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504272130004_042715qui.resx">
+      <DependentUpon>201504272130004_042715qui.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

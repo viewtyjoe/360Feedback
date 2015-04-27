@@ -8,14 +8,16 @@ using System.Web;
 using System.Web.Mvc;
 using MongoLabUtils;
 using _360Feedback.Models;
+using _360Feedback.DataContexts;
 
 namespace _360Feedback.Controllers
 {
     public class MongoTestController : Controller
     {
         private MongoApi Db = new MongoApi { Database = "wctc-360-feedback", ApiKey = "oHIeU1xIFPhPKDrXzkO90gQTWe7wyswW" };
+        private FeedbackDb SqlDb = new FeedbackDb();
         // GET: MongoTest
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             //string uri = "mongodb://admin:admin@ds049211.mongolab.com:49211/wctc-360-feedback";
             
@@ -35,10 +37,10 @@ namespace _360Feedback.Controllers
             //client.DefaultRequestHeaders.Accept.Clear();
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = await Db.SelectAll("questions");
-            if(response.IsSuccessStatusCode)
-            {
-                List<Question> questions = await HttpContentExtensions.ReadAsAsync<List<Question>>(response.Content);
+            //HttpResponseMessage response = await Db.SelectAll("questions");
+            //if(response.IsSuccessStatusCode)
+            //{
+            //    List<Question> questions = await HttpContentExtensions.ReadAsAsync<List<Question>>(response.Content);
 
                 //foreach(var document in db)
                 //{
@@ -61,10 +63,13 @@ namespace _360Feedback.Controllers
                 //    question.categories = categories;
                 //    questions.Add(question);
                 //}
-                questions.Reverse();
-                return View(questions);
-            }
-            return View();
+            //    questions.Reverse();
+            //    return View(questions);
+            //}
+
+            List<Question> Questions = SqlDb.Questions.ToList();
+
+            return View(Questions);
         }
 
         [HttpGet]

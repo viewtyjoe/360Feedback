@@ -9,6 +9,11 @@ namespace _360Feedback.Models
     {
         public int QuestionId { get; set; }
         public string title { get; set; }
-        public List<Category> categories { get; set; }
+        public virtual List<Category> categories { get; set; }
+
+        public Question()
+        {
+            categories = new List<Category>();
+        }
     }
 }
