@@ -53,6 +53,15 @@ namespace _360Feedback.Controllers
             //}
             return View(questions);
         }
+
+        [HttpPost]
+        public ActionResult saveNewTeam()
+        {
+            Team newTeam = new Team();
+            newTeam.TeamName = Request.Params["teamName"];
+            int studentCount = Request.Params["counter"];
+            return Redirect("Index");
+        }
         
         public ActionResult Contact()
         {
