@@ -15,9 +15,9 @@
             <li>
                 @c.name
                 <ul>
-                    @foreach (string s in c.values)
+                    @foreach (Description s in c.Descriptions)
                     {
-                        <li>@s</li>
+                        <li>@s.Value</li>
                     }
                 </ul>
             </li>

@@ -3,7 +3,7 @@ namespace _360Feedback.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class FeedbackDb042715 : DbMigration
+    public partial class FeedbackDb042715bis : DbMigration
     {
         public override void Up()
         {
@@ -76,6 +76,7 @@ namespace _360Feedback.Migrations
                 c => new
                     {
                         TeamId = c.Int(nullable: false, identity: true),
+                        TeamName = c.String(),
                     })
                 .PrimaryKey(t => t.TeamId);
             

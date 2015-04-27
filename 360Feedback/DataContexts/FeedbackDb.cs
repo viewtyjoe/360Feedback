@@ -15,5 +15,10 @@ namespace _360Feedback.DataContexts
         public DbSet<Category> Categories { get; set; }
         public DbSet<Description> Descriptions { get; set; }
         public DbSet<Response> Response { get; set; }
+
+        public FeedbackDb() : base("name=DefaultConnection")
+        {
+            Console.WriteLine(Database.Connection.ConnectionString);
+        }
     }
 }
