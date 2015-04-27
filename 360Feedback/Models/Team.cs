@@ -10,6 +10,7 @@ namespace _360Feedback.Models
     {
         [Required]
         public int TeamId { get; set; }
+        public string TeamName { get; set; }
         public List<Student> Students { get; set; }
     }
 }

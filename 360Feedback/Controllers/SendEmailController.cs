@@ -21,20 +21,23 @@ namespace _360Feedback.Controllers
             if(ModelState.IsValid) {
                 MailMessage mail = new MailMessage();
                 mail.To.Add(_objModelMail.To);
-                //mail.From = new MailAddress(_objModelMail.From);            
                 mail.From = new MailAddress("wctcemailtest@gmail.com");
-                //mail.Subject = _objModelMail.Subject;
+               // mail.From = new MailAddress("MGreen14@wctc.edu");
                 mail.Subject = "ISP Team Review";
                 string Body = _objModelMail.Body;
                 mail.Body = Body;
                 mail.IsBodyHtml = true;
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "smtp.gmail.com";
+                //smtp.Host = "smtp.office365.com";
                 smtp.Port = 587;
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = new System.Net.NetworkCredential("wctcemailtest@gmail.com", "blackrose7");
+                // smtp.Credentials = new System.Net.NetworkCredential("MGreen14@wctc.edu", "PASSWORD");
                 smtp.EnableSsl = true;
                 smtp.Send(mail);
+
+
                 return View("Index", _objModelMail);
                 
             }else{
