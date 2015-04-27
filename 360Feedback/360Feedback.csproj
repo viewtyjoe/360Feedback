@@ -278,7 +278,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\MongoTest\Index.cshtml" />
     <Content Include="Views\Home\StudentView.cshtml" />
-    <Content Include="Views\SendEmail\Index.cshtml" />
     <Content Include="Views\MongoTest\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>

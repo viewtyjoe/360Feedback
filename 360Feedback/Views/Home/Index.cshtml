@@ -1,4 +1,5 @@
-﻿@{
+﻿@model _360Feedback.Models.EmailModel
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -18,6 +19,26 @@
         </form>
     </div>
 </div>
+
+
+<br />
+
+<fieldset>
+    <legend>
+        Send Email
+    </legend>
+
+    @using (Html.BeginForm("SendEmail", "Home", FormMethod.Post))
+    {
+      
+        @Html.ValidationSummary()
+        <p>To: </p>
+        <p>@Html.TextBoxFor(m => m.To)</p>
+        <p>Body: </p>
+        <p>@Html.TextAreaFor(m => m.Body)</p>
+        <input type="submit" name="submit" value="Send" id="btnSave" class="btn btn-lg" />
+    }
+</fieldset>
 
 @section Scripts{
     <script src="~/Scripts/jquery-ui.min.js"></script>
