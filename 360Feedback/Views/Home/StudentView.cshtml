@@ -43,10 +43,10 @@
                         <td width="20%"><strong>@c.name</strong></td>
                         <td width="20%">
                             <form name="radioQuestion" id="radioQuestion" class="radioQuestion">
-                                <label><input type="radio" name='@name' value="@c.values[0]" /> Professional </label><br />
-                                <label><input type="radio" name='@name' value="@c.values[1]" /> Life/Acceptable </label> <br />
-                                <label><input type="radio" name='@name' value="@c.values[2]" /> Introductory/Novice </label> <br />
-                                <label><input type="radio" name='@name' value="@c.values[3]" /> Not Acceptable </label>
+                                <label><input type="radio" name='@name' value="@c.Descriptions[0].Value" /> Professional </label><br />
+                                <label><input type="radio" name='@name' value="@c.Descriptions[1].Value" /> Life/Acceptable </label> <br />
+                                <label><input type="radio" name='@name' value="@c.Descriptions[2].Value" /> Introductory/Novice </label> <br />
+                                <label><input type="radio" name='@name' value="@c.Descriptions[3].Value" /> Not Acceptable </label>
                             </form>
                         </td>
                         <td width="60%">
