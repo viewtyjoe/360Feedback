@@ -59,7 +59,7 @@ namespace _360Feedback.Controllers
         {
             Team newTeam = new Team();
             newTeam.TeamName = Request.Params["teamName"];
-            int studentCount = Request.Params["counter"];
+            int studentCount = Int32.Parse(Request.Params["counter"]);
             return Redirect("Index");
         }
         
