@@ -26,7 +26,7 @@ namespace _360Feedback.Controllers
             return View();
         }
 
-        public async Task<ActionResult>  StudentView()
+        public ActionResult StudentView()
         {
             string url = "https://api.mongolab.com/api/1/databases/wctc-360-feedback/";
             string key = "oHIeU1xIFPhPKDrXzkO90gQTWe7wyswW";
