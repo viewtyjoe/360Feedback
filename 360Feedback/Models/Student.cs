@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,7 +8,9 @@ namespace _360Feedback.Models
 {
     public class Student
     {
-        public string studentName { get; set; }
-        public string studentEmail { get; set; }
+        [Required, Key]
+        public string Email { get; set; }
+        [Required]
+        public string Name { get; set; }
     }
 }
