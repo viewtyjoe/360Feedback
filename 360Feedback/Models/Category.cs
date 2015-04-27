@@ -7,7 +7,9 @@ namespace _360Feedback.Models
 {
     public class Category
     {
+        public int CategoryId { get; set; }
         public string name { get; set; }
-        public List<string> values { get; set; }
+        public Question Question { get; set; }
+        public List<Description> Descriptions { get; set; }
     }
 }

@@ -174,16 +174,24 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MongoTestController.cs" />
     <Compile Include="Controllers\SendEmailController.cs" />
+    <Compile Include="DataContexts\FeedbackDb.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201504271732480_FeedbackDb042715.cs" />
+    <Compile Include="Migrations\201504271732480_FeedbackDb042715.Designer.cs">
+      <DependentUpon>201504271732480_FeedbackDb042715.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\Description.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Question.cs" />
+    <Compile Include="Models\Response.cs" />
+    <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\TestModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -272,6 +280,11 @@
       <Project>{cb296e18-5973-43a4-90e2-6d9b82541ad9}</Project>
       <Name>MongoLabUtils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201504271732480_FeedbackDb042715.resx">
+      <DependentUpon>201504271732480_FeedbackDb042715.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

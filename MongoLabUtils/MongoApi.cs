@@ -29,6 +29,41 @@ namespace MongoLabUtils
             return response;
         }
 
+        public async Task<HttpResponseMessage> Select(string table, string column, string value)
+        {
+            string url = baseUrl + Database + "/";
+            string query = "{\"" + column + "\":\"" + value + "\"}";
+
+            var client = new HttpClient();
+            client.BaseAddress = new Uri(url);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await client.GetAsync("collections/" + table + "?apiKey=" + ApiKey + "&q=" + query);
+            return response;
+        }
+
+
+        public async Task<HttpResponseMessage> Select(string table, object data, List<string> idColumn, List<string> key)
+        {
+            string url = baseUrl + Database + "/";
+
+            string query = "{";
+            for (int i = 0; i < idColumn.Count(); i++)
+            {
+                query += "\"" + idColumn[i] + "\":\"" + key[i] + "\"";
+            }
+            query += "}";
+
+            var dataString = new JavaScriptSerializer().Serialize(data);
+            var content = new StringContent(dataString, Encoding.UTF8, "application/json");
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.BaseAddress = new Uri(url);
+
+            return await client.GetAsync("collections/" + table + "?apiKey=" + ApiKey + "&q=" + query);
+        }
+
         public async Task<HttpResponseMessage> Write(string table, object data)
         {
             string url = baseUrl + Database + "/";
