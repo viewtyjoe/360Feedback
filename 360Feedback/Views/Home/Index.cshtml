@@ -4,41 +4,62 @@
 }
 
 <div class="jumbotron">
-    <h1>Admin Page</h1>
-    <p class="lead">ASP.NET is a lorem ipsum framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <h1>Administrator</h1>
+    <p class="lead">Use this page to Add/Edit/Delete teams, review team survey progress, and send E-mail reminders</p>
 </div>
 
 <div class="row" id="teamBuilderDiv">
-    <div class="col-lg-12">
-        <form id="formSave" name="formSave" method="POST" action=''>
+    <div class="col-lg-6">
+        <h3>Add new team:</h3>
+        <form id="formSave" name="formSave" method="POST" action='' style="margin-left:10px;">
             <label for="teamName">Enter Team Name:</label><br /><input type="text" name="teamName" id="teamName" placeholder="Team Name" /><br /><br /><label>Enter Student Names and Emails:</label><br />
-            <span id="inputFields"></span><br /><input type="button" value="+" id="plus" />
+            <span id="inputFields"></span><br /><br /><input type="button" value="+" id="plus" />
             <br /><br />
-
+            <input name="counter" id="counter" value="" hidden />
             <input type="submit" name="submit" id="btnSave" class="btn btn-lg" value="Save Team" />
         </form>
     </div>
+    <div class="col-lg-6">
+        <h3>TEAM NAME</h3>
+        <ul>
+            @using (Html.BeginForm("SendEmailToStudent", "Home", FormMethod.Post, new { Id = "StudentId" }))
+            {
+                <li>
+                    Team member
+                    <button type="submit" class="btn-sm btn-primary" style="display:inline" title="E-mail Student">
+                        <i class="glyphicon glyphicon-envelope"></i>
+                    </button>
+                    @if (TempData["studentName"] != null)
+                    {
+                    <span class="" style="font-weight:bold;color:green">@TempData["studentName"] &nbsp;<span class='glyphicon glyphicon-ok'></span></span>
+                    }
+                </li>
+            }
+        </ul>
+        @using (Html.BeginForm("SendEmailToTeam", "Home", FormMethod.Post, new { Id = "TeamId" }))
+        {
+            <button type="submit" class="btn btn-info" title="E-mail Team">
+                <i class="glyphicon glyphicon-envelope"></i> E-mail all members
+            </button>
+            if (TempData["teamName"] != null)
+            {
+                <span class="" style="font-weight:bold;color:green">@TempData["teamName"] &nbsp;<span class='glyphicon glyphicon-ok'></span></span>
+            }
+        }
+        <hr />
+        <h3>TEAM NAME</h3>
+        <h4>Team member</h4>
+        <h4>Team member</h4>
+        <h4>Team member</h4>
+        <h4>Team member</h4>
+        @using (Html.BeginForm("SendEmail", "Home", FormMethod.Post, new { Id = "TeamId" }))
+        {
+            <input type="submit" value="Send Email To All Members">
+        }
+    </div>
 </div>
-
-
 <br />
 
-<fieldset>
-    <legend>
-        Send Email
-    </legend>
-
-    @using (Html.BeginForm("SendEmail", "Home", FormMethod.Post))
-    {
-      
-        @Html.ValidationSummary()
-        <p>To: </p>
-        <p>@Html.TextBoxFor(m => m.To)</p>
-        <p>Body: </p>
-        <p>@Html.TextAreaFor(m => m.Body)</p>
-        <input type="submit" name="submit" value="Send" id="btnSave" class="btn btn-lg" />
-    }
-</fieldset>
 
 @section Scripts{
     <script src="~/Scripts/jquery-ui.min.js"></script>
