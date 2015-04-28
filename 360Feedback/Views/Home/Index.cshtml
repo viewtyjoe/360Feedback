@@ -1,4 +1,6 @@
-﻿@model _360Feedback.Models.EmailModel
+﻿@using _360Feedback.Models;
+
+@model _360Feedback.Models.EmailModel
 @{
     ViewBag.Title = "Home Page";
 }
@@ -11,7 +13,7 @@
 <div class="row" id="teamBuilderDiv">
     <div class="col-lg-6">
         <h3>Add new team:</h3>
-        <form id="formSave" name="formSave" method="POST" action='' style="margin-left:10px;">
+        <form id="formSave" name="formSave" method="POST" action='saveNewTeam' style="margin-left:10px;">
             <label for="teamName">Enter Team Name:</label><br /><input type="text" name="teamName" id="teamName" placeholder="Team Name" /><br /><br /><label>Enter Student Names and Emails:</label><br />
             <span id="inputFields"></span><br /><br /><input type="button" value="+" id="plus" />
             <br /><br />
@@ -20,30 +22,36 @@
         </form>
     </div>
     <div class="col-lg-6">
-        <h3>TEAM NAME</h3>
-        <ul>
-            @using (Html.BeginForm("SendEmailToStudent", "Home", FormMethod.Post, new { Id = "StudentId" }))
-            {
-                <li>
-                    Team member
-                    <button type="submit" class="btn-sm btn-primary" style="display:inline" title="E-mail Student">
-                        <i class="glyphicon glyphicon-envelope"></i>
-                    </button>
-                    @if (TempData["studentName"] != null)
+        @foreach(Team t in ViewBag.teams)
+        { 
+            <h3>@t.TeamName</h3>
+            <ul>
+                @foreach(Student s in t.Students)
+                { 
+                    using (Html.BeginForm("SendEmailToStudent", "Home", FormMethod.Post, new { Id = "StudentId" }))
                     {
-                    <span class="" style="font-weight:bold;color:green">@TempData["studentName"] &nbsp;<span class='glyphicon glyphicon-ok'></span></span>
+                        <li>
+                            @s.Name
+                            <button type="submit" class="btn-sm btn-primary" style="display:inline" title="E-mail Student">
+                                <i class="glyphicon glyphicon-envelope"></i>
+                            </button>
+                            @if (TempData["studentName"] != null)
+                            {
+                            <span class="" style="font-weight:bold;color:green">@TempData["studentName"] &nbsp;<span class='glyphicon glyphicon-ok'></span></span>
+                            }
+                        </li>
                     }
-                </li>
-            }
-        </ul>
-        @using (Html.BeginForm("SendEmailToTeam", "Home", FormMethod.Post, new { Id = "TeamId" }))
-        {
-            <button type="submit" class="btn btn-info" title="E-mail Team">
-                <i class="glyphicon glyphicon-envelope"></i> E-mail all members
-            </button>
-            if (TempData["teamName"] != null)
+                }
+            </ul>
+            using (Html.BeginForm("SendEmailToTeam", "Home", FormMethod.Post, new { Id = "TeamId" }))
             {
-                <span class="" style="font-weight:bold;color:green">@TempData["teamName"] &nbsp;<span class='glyphicon glyphicon-ok'></span></span>
+                <button type="submit" class="btn btn-info" title="E-mail Team">
+                    <i class="glyphicon glyphicon-envelope"></i> E-mail all members
+                </button>
+                if (TempData["teamName"] != null)
+                {
+                    <span class="" style="font-weight:bold;color:green">@TempData["teamName"] &nbsp;<span class='glyphicon glyphicon-ok'></span></span>
+                }
             }
         }
         <hr />
