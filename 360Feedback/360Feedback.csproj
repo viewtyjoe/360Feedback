@@ -202,6 +202,10 @@
     <Compile Include="Migrations\201504272225368_042715sex.Designer.cs">
       <DependentUpon>201504272225368_042715sex.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201504282134499_FeedbackDb042815.cs" />
+    <Compile Include="Migrations\201504282134499_FeedbackDb042815.Designer.cs">
+      <DependentUpon>201504282134499_FeedbackDb042815.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -318,6 +322,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201504272225368_042715sex.resx">
       <DependentUpon>201504272225368_042715sex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504282134499_FeedbackDb042815.resx">
+      <DependentUpon>201504282134499_FeedbackDb042815.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -24,6 +24,8 @@ namespace _360Feedback.Controllers
 
         public ActionResult Index()
         {
+            List<Team> teams = Db.Teams.ToList<Team>();
+            ViewBag.teams = teams;
             return View();
         }
 
@@ -68,6 +70,7 @@ namespace _360Feedback.Controllers
                 addStudent.Email = Request.Params["email" + i.ToString()];
                 addStudent.Completed = false;
                 addStudent.Team = newTeam;
+                studentList.Add(addStudent);
             }
             Db.Teams.Add(newTeam);
             await Db.SaveChangesAsync();
