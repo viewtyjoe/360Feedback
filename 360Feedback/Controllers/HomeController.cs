@@ -86,7 +86,7 @@ namespace _360Feedback.Controllers
         {
             if (ModelState.IsValid)
             {
-                Team team = Db.Teams.Find(Request.Params["teamId"]);
+                Team team = Db.Teams.Find(Int32.Parse(Request.Params["teamId"]));
 
                 foreach (Student student in team.Students)
                 {
@@ -125,7 +125,7 @@ namespace _360Feedback.Controllers
         {
             if (ModelState.IsValid)
             {
-                Student student = Db.Students.Find(Request.Params["studentEmail"]);
+                Student student = Db.Students.Find(Int32.Parse(Request.Params["studentEmail"]));
 
                 try
                 {

@@ -46,7 +46,7 @@
                         <i class="glyphicon glyphicon-envelope"></i>
                     </button>
                                 @student.Name - <span style="@(student.Completed ? "color:green;" : "color:red;")">@(student.Completed ? "Complete" : "Incomplete")</span>
-                                <input type="hidden" value="@student.Email" name="studentEmail" />
+                                <input type="hidden" value="@student.StudentId" name="studentEmail" />
                                 @if (TempData[student.Name] != null)
                     {
                                     <span style="font-weight:bold;text-align:right;@(TempData[student.Name].ToString().Contains("Error") ? "color:red;" : "color:green;")">@TempData[student.Name] &nbsp;<span class='glyphicon glyphicon-ok'></span>&nbsp;&nbsp;</span>

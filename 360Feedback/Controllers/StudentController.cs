@@ -26,7 +26,7 @@ namespace _360Feedback.Controllers
             List<Team> allTeams = Db.Teams.ToList();
             StudentViewModel svm = new StudentViewModel();
             svm.Questions = Db.Questions.ToList<Question>();
-            svm.Student = Db.Students.Find(user);
+            svm.Student = Db.Students.First<Student>(s => s.Email == user);
             Team team = allTeams.Where(x => x.Students.Contains(svm.Student)).SingleOrDefault();
             svm.Student.Team = team;
 
