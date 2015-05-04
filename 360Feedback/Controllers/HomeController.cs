@@ -136,45 +136,23 @@ namespace _360Feedback.Controllers
                 Team team = Db.Teams.Find(Int32.Parse(Request.Params["teamId"]));
 
                 foreach (Student student in team.Students)
-                {
-<<<<<<< HEAD
-                    MailMessage mail = new MailMessage();
-                    mail.To.Add(student.Email);
-                    mail.From = new MailAddress(fromEmail);
-                // mail.From = new MailAddress("MGreen14@wctc.edu");
-                    string Body = GenerateEmailBody(student);
-                    mail.Body = Body;
-                    mail.IsBodyHtml = true;
-                    SmtpClient smtp = new SmtpClient();
- 
-                    smtp.Host = smtpSetting;
-                    //smtp.Host = "smtp.office365.com";
-
-                    smtp.Port = port;
-                    smtp.UseDefaultCredentials = false;
-                    smtp.Credentials = new System.Net.NetworkCredential("wctcemailtest@gmail.com", "blackrose7");
-                    // smtp.Credentials = new System.Net.NetworkCredential("MGreen14@wctc.edu", "PASSWORD");
-                    smtp.EnableSsl = true;
-                    smtp.Send(mail);
-=======
-
+                {            
                     try
                     {
                         MailMessage mail = new MailMessage();
                         mail.To.Add(student.Email);
-                        mail.From = new MailAddress("wctcemailtest@gmail.com");
+                        mail.From = new MailAddress(fromEmail);
                         // mail.From = new MailAddress("MGreen14@wctc.edu");
-                        mail.Subject = "ISP Team Review";
-                            string Body = GenerateEmailBody(student);
+                        string Body = GenerateEmailBody(student);
                         mail.Body = Body;
                         mail.IsBodyHtml = true;
+                        mail.Subject = subject;
                         SmtpClient smtp = new SmtpClient();
-                        smtp.Host = "smtp.gmail.com";
+                        smtp.Host = smtpSetting;
                         //smtp.Host = "smtp.office365.com";
-                        smtp.Port = 587;
+                        smtp.Port = port;
                         smtp.UseDefaultCredentials = false;
-                        smtp.Credentials = new System.Net.NetworkCredential("wctcemailtest@gmail.com", "blackrose7");
-                        // smtp.Credentials = new System.Net.NetworkCredential("MGreen14@wctc.edu", "PASSWORD");
+                        smtp.Credentials = new System.Net.NetworkCredential(fromEmail, password);
                         smtp.EnableSsl = true;
                         smtp.Send(mail);
 
@@ -186,7 +164,6 @@ namespace _360Feedback.Controllers
                         return RedirectToAction("Index");
                     }
 
->>>>>>> master
                 }
                 
                 return RedirectToAction("Index");
@@ -211,41 +188,21 @@ namespace _360Feedback.Controllers
                     MailMessage mail = new MailMessage();
                     mail.To.Add(student.Email);
                     mail.From = new MailAddress(fromEmail);
-                // mail.From = new MailAddress("MGreen14@wctc.edu");
-
-                    mail.Subject = subject;
+                    // mail.From = new MailAddress("MGreen14@wctc.edu");
                     string Body = GenerateEmailBody(student);
-<<<<<<< HEAD
                     mail.Body = Body;
                     mail.IsBodyHtml = true;
+                    mail.Subject = subject;
                     SmtpClient smtp = new SmtpClient();
-
-                    smtp.Host = smtpSetting;   
+                    smtp.Host = smtpSetting;
                     //smtp.Host = "smtp.office365.com";
                     smtp.Port = port;
                     smtp.UseDefaultCredentials = false;
                     smtp.Credentials = new System.Net.NetworkCredential(fromEmail, password);
-                    // smtp.Credentials = new System.Net.NetworkCredential("MGreen14@wctc.edu", "PASSWORD");
                     smtp.EnableSsl = true;
                     smtp.Send(mail);
-
                     TempData[student.Name] = "- Student E-mail Sent";
                     return RedirectToAction("Index");
-=======
-                mail.Body = Body;
-                mail.IsBodyHtml = true;
-                SmtpClient smtp = new SmtpClient();
-                smtp.Host = "smtp.gmail.com";
-                //smtp.Host = "smtp.office365.com";
-                smtp.Port = 587;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new System.Net.NetworkCredential("wctcemailtest@gmail.com", "blackrose7");
-                // smtp.Credentials = new System.Net.NetworkCredential("MGreen14@wctc.edu", "PASSWORD");
-                smtp.EnableSsl = true;
-                smtp.Send(mail);
-                TempData[student.Name] = "- Student E-mail Sent";
-                return RedirectToAction("Index");
->>>>>>> master
                 }
                 catch (SmtpException e)
                 {
@@ -267,8 +224,7 @@ namespace _360Feedback.Controllers
         {
             Byte[] encoded = GetBytes(_student.Email);
             String base64userName = HttpServerUtility.UrlTokenEncode(encoded);
-
-            
+        
             String body = "You have been invited to complete a survery on your teammates, please follow the link below to complete the survey: \n";
             String url = "http://www.studentteamfeedback.com/Student/StudentView?id=" + base64userName;
             body += url;
