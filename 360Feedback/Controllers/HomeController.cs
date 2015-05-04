@@ -71,9 +71,49 @@ namespace _360Feedback.Controllers
         [HttpPost]
         public async Task<ActionResult> SaveTeam()
         {
+            Team editTeam = Db.Teams.Find(Int32.Parse(Request.Params["teamId"]));
+            List<Student> studentList = editTeam.Students.ToList();
+            editTeam.TeamName = Request.Params["teamName"];
+            int studentCount = Int32.Parse(Request.Params["counter"]);
+            for (int i = 0; i <= studentCount; i++)
+            {
+                if (!(Request.Params["email" + i.ToString()] == null) && !(Request.Params["student" + i.ToString()] == null))
+                {
+                    if(!(Db.Students.Find(Request.Params["email" + i.ToString()]) == null)){
+                        Student editStudent = Db.Students.Find(Request.Params["email" + i.ToString()]);
+                        editStudent.Name = Request.Params["student" + i.ToString()];
+                        editStudent.Email = Request.Params["email" + i.ToString()];
+                        await Db.SaveChangesAsync();
+                    } else {
+                        Student saveStudent = new Student();
+                        saveStudent.Name = Request.Params["student" + i.ToString()];
+                        saveStudent.Email = Request.Params["email" + i.ToString()];
+                        saveStudent.Completed = false;
+                        saveStudent.Team = editTeam;
+                        studentList.Add(saveStudent);
+                        Db.Students.Add(saveStudent);
+                        await Db.SaveChangesAsync();
+                    }
+                    
+                }
+            }
+            await Db.SaveChangesAsync();
+
             return Redirect("Index");
         }
         
+        [HttpPost]
+        public async Task<ActionResult> RemoveStudent(String studentEmail)
+        {
+            Team editTeam = Db.Teams.Find(Int32.Parse(Request.Params["teamId"]));
+            Student removeStudent = Db.Students.Find(Request.Params["emailDelete"]);
+            editTeam.Students.Remove(removeStudent);
+            Db.Students.Remove(removeStudent);
+            await Db.SaveChangesAsync();
+
+            return View("EditTeam", editTeam);
+        }
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -90,26 +130,37 @@ namespace _360Feedback.Controllers
 
                 foreach (Student student in team.Students)
                 {
-                    MailMessage mail = new MailMessage();
-                    mail.To.Add(student.Email);
-                mail.From = new MailAddress("wctcemailtest@gmail.com");
-                // mail.From = new MailAddress("MGreen14@wctc.edu");
-                mail.Subject = "ISP Team Review";
-                    string Body = GenerateEmailBody(student);
-                mail.Body = Body;
-                mail.IsBodyHtml = true;
-                SmtpClient smtp = new SmtpClient();
-                smtp.Host = "smtp.gmail.com";
-                //smtp.Host = "smtp.office365.com";
-                smtp.Port = 587;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new System.Net.NetworkCredential("wctcemailtest@gmail.com", "blackrose7");
-                // smtp.Credentials = new System.Net.NetworkCredential("MGreen14@wctc.edu", "PASSWORD");
-                smtp.EnableSsl = true;
-                smtp.Send(mail);
+
+                    try
+                    {
+                        MailMessage mail = new MailMessage();
+                        mail.To.Add(student.Email);
+                        mail.From = new MailAddress("wctcemailtest@gmail.com");
+                        // mail.From = new MailAddress("MGreen14@wctc.edu");
+                        mail.Subject = "ISP Team Review";
+                            string Body = GenerateEmailBody(student);
+                        mail.Body = Body;
+                        mail.IsBodyHtml = true;
+                        SmtpClient smtp = new SmtpClient();
+                        smtp.Host = "smtp.gmail.com";
+                        //smtp.Host = "smtp.office365.com";
+                        smtp.Port = 587;
+                        smtp.UseDefaultCredentials = false;
+                        smtp.Credentials = new System.Net.NetworkCredential("wctcemailtest@gmail.com", "blackrose7");
+                        // smtp.Credentials = new System.Net.NetworkCredential("MGreen14@wctc.edu", "PASSWORD");
+                        smtp.EnableSsl = true;
+                        smtp.Send(mail);
+
+                        TempData[student.Name] = "- Student E-mail Sent";
+                    }
+                    catch (SmtpException e)
+                    {
+                        TempData[student.Name] = "- Error Sending E-mail";
+                        return RedirectToAction("Index");
+                    }
+
                 }
                 
-                TempData["teamName"] = "Team Email Sent";
                 return RedirectToAction("Index");
 
             }
@@ -146,14 +197,13 @@ namespace _360Feedback.Controllers
                 // smtp.Credentials = new System.Net.NetworkCredential("MGreen14@wctc.edu", "PASSWORD");
                 smtp.EnableSsl = true;
                 smtp.Send(mail);
-
-                    TempData[student.Name] = "- Student E-mail Sent";
-                    return RedirectToAction("Index");
+                TempData[student.Name] = "- Student E-mail Sent";
+                return RedirectToAction("Index");
                 }
                 catch (SmtpException e)
                 {
                     TempData[student.Name] = "- Error Sending E-mail";
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 }
 
             }
