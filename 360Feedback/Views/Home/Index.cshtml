@@ -11,7 +11,7 @@
 </div>
 
 <div class="row" id="teamBuilderDiv">
-    <div class="col-lg-6">
+    <div class="col-lg-5">
         <h3>Add new team:</h3><hr />
         <form id="formSave" name="formSave" method="POST" action='SaveNewTeam' style="margin-left:10px;">
             <label for="teamName">Enter Team Name:</label><br /><input type="text" name="teamName" id="teamName" placeholder="Team Name" /><br /><br /><label>Enter Student Names and Emails:</label><br />
@@ -21,7 +21,7 @@
             <input type="submit" name="submit" id="btnSave" class="btn btn-lg" value="Save Team" />
         </form>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-7">
         <h3>Teams:</h3><hr />
         <div id="teams" style="margin-left:10px;">
             @foreach (Team team in Model)
@@ -36,50 +36,46 @@
                         </button>
                     }
                 </span>
-        <ul>
+                <ul>
                     @foreach (Student student in team.Students)
-            {
+                    {
                         using (Html.BeginForm("SendEmailToStudent", "Home", FormMethod.Post))
                         {
                             <li style="font-weight:bold;height:auto">
-                    <button type="submit" class="btn-sm btn-primary" style="display:inline" title="E-mail Student">
-                        <i class="glyphicon glyphicon-envelope"></i>
-                    </button>
+                                <button type="submit" class="btn-sm btn-primary" style="display:inline" title="E-mail Student">
+                                    <i class="glyphicon glyphicon-envelope"></i>
+                                </button>
                                 @student.Name - <span style="@(student.Completed ? "color:green;" : "color:red;")">@(student.Completed ? "Complete" : "Incomplete")</span>
                                 <input type="hidden" value="@student.Email" name="studentEmail" />
                                 @if (TempData[student.Name] != null)
-                    {
+                                {
                                     <span style="font-weight:bold;text-align:right;@(TempData[student.Name].ToString().Contains("Error") ? "color:red;" : "color:green;")">@TempData[student.Name] &nbsp;<span class='glyphicon glyphicon-ok'></span>&nbsp;&nbsp;</span>
-                    }
-                </li>
-            }
+                                }
+                            </li>
+                        }
                     }
 
-        </ul>
-                <hr />
-                using (Html.BeginForm("SendEmailToTeam", "Home", FormMethod.Post))
-        {
-            <button type="submit" class="btn btn-info" title="E-mail Team">
-                <i class="glyphicon glyphicon-envelope"></i> E-mail all members
-            </button>
-                    <input type="hidden" value="@team.TeamId" name="teamId" />
-                    if (TempData[team.TeamId.ToString()] != null)
-            {
-                        <span class="" style="font-weight:bold;color:green">@TempData[team.TeamId.ToString()] &nbsp;<span class='glyphicon glyphicon-ok'></span></span>
-                    }
-            }
-                using (Html.BeginForm("DeleteTeam", "Home", FormMethod.Post))
+                </ul>
+                using (Html.BeginForm("SendEmailToTeam", "Home", FormMethod.Post, new { style = "display:inline-block" }))
                 {
+                    <button type="submit" class="btn btn-info" title="E-mail Team">
+                        <i class="glyphicon glyphicon-envelope"></i> E-mail all members
+                    </button>
                     <input type="hidden" value="@team.TeamId" name="teamId" />
-                    <br /><button type="submit" class="btn btn-warning" title="Delete Team">
+                }
+                
+                using (Html.BeginForm("DeleteTeam", "Home", FormMethod.Post, new { style = "display:inline-block" }))
+                {
+                    
+                    <input type="hidden" value="@team.TeamId" name="teamId" />
+                    <button type="submit" class="btn btn-warning" style="margin-left:15px;" title="Delete Team">
                         <i class="glyphicon glyphicon-remove"></i> Delete Team
                     </button>
-        }
-        }
-        <hr />
-        }
+                }
+                <hr />
+            }
+        </div>
     </div>
-</div>
 </div>
 <br />
 
