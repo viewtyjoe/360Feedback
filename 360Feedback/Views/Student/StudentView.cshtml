@@ -1,6 +1,5 @@
 ﻿@{
     ViewBag.Title = "Student View";
-    var counter = 0;
     
 }
 @using _360Feedback.Models;
@@ -22,14 +21,17 @@
 
         @foreach (Student s in Model.TeamMembers)
         {
+            var formId = "form" + s.StudentId;
+            var counter = 0;
         <div id="@s.Email" class="questions">
             <h3>Survey for @s.Name</h3>
+            <form id="@formId" class="ajaxForm" action="" method="post">
             @foreach (Question q in Model.Questions)
             {
                 <table>
                     <thead>
                         <tr>
-                            <th colspan="3" style="text-align:center;" class="title"><h3>@q.title</h3> **Question category description</th>
+                                <th colspan="3" style="text-align:center;" class="title"><h4>@q.title</h4> **Question category description</th>
                         </tr>
                         <tr>
                             <th>Area</th>
@@ -45,12 +47,12 @@
                             <tr>
                                 <td width="20%"><strong>@c.name</strong></td>
                                 <td width="20%">
-                                    <form name="radioQuestion" id="radioQuestion" class="radioQuestion">
-                                        <label><input type="radio" name='@name' value="@c.Descriptions[0].Value" /> Professional </label><br />
-                                        <label><input type="radio" name='@name' value="@c.Descriptions[1].Value" /> Life/Acceptable </label> <br />
-                                        <label><input type="radio" name='@name' value="@c.Descriptions[2].Value" /> Introductory/Novice </label> <br />
-                                        <label><input type="radio" name='@name' value="@c.Descriptions[3].Value" /> Not Acceptable </label>
-                                    </form>
+                                    <fieldset class="radioQuestion">
+                                        <label><input type="radio" name='@name' value="4" data-text="@c.Descriptions[3].Value" /> Professional </label><br />
+                                        <label><input type="radio" name='@name' value="3" data-text="@c.Descriptions[2].Value" /> Life/Acceptable </label> <br />
+                                        <label><input type="radio" name='@name' value="2" data-text="@c.Descriptions[1].Value" /> Introductory/Novice </label> <br />
+                                        <label><input type="radio" name='@name' value="1" data-text="@c.Descriptions[0].Value" /> Not Acceptable </label>
+                                    </fieldset>
                                 </td>
                                 <td width="60%">
 
@@ -62,10 +64,14 @@
 
                     </tbody>
                 </table>
-                <br /><br />
             }
-            <form id="formSave" name="formSave" method="POST" action=''>
+            <input type="hidden" name="studentId" id="studentId" value="@s.StudentId" />
+                <input type="hidden" name="teamId" id="teamId" value="@s.Team.TeamId" />
+                <input type="hidden" name="studentIdFrom" id="studentIdFrom" value="@Model.Student.StudentId" />
+                <input type="hidden" name="questionCount" id="questionCount" value="@counter" />
+                <input type="hidden" name="response" id="response" />
                 <input type="submit" name="submit" id="btnSave" class="btn btn-lg" value="Save Questions" disabled />
+                <span id="formSuccess" class="hidden"></span>
             </form>
         </div>
         }

@@ -16,16 +16,25 @@ function init() {
                 at: "right+5 top-5"
             }
         });
-    });
+    })
 
     $('input[type="radio"]:radio').change(function () {
         nameOfRadio = ($(this).attr('name'));
         associatedDesc = "#desc" + nameOfRadio.substr(8);
-        $(associatedDesc).html($(this).val());
+        $(associatedDesc).html($(this).data("text"));
         $(this).closest('tr').addClass("green");
         checkAll();
     }) 
 
+    $('.ajaxForm').submit(function () {
+        $.post("SaveResponse", $(this).serialize(), function () {
+            $(this).find(".formSuccess").class = "text-success";
+            $(this).find(".formSuccess").html("Successfully Saved!");
+        }).error(function () {
+            $(this).find(".formSuccess").class = "text-danger";
+            $(this).find(".formSuccess").html("Not able to save!");
+        });
+    })
 };
 
 function checkAll() {
