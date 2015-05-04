@@ -7,14 +7,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Net.Mail;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using _360Feedback.Models;
 using _360Feedback.DataContexts;
-
-
-
 
 namespace _360Feedback.Controllers
 {
@@ -25,45 +19,19 @@ namespace _360Feedback.Controllers
         public ActionResult Index()
         {
             List<Team> teams = Db.Teams.ToList<Team>();
-            ViewBag.teams = teams;
-            return View();
+
+            return View(teams);
         }
 
-        public ActionResult StudentView()
-        {
-            List<Question> questions = Db.Questions.ToList<Question>();
-            //foreach(var document in db)
-            //{
-            //    Question question = new Question();
-            //    List<Category> categories = new List<Category>();
-            //    question.title = document.GetElement("title").ToString();
-            //    foreach(var category in document.GetElement("categories").Value.AsBsonArray)
-            //    {
-            //        Category addCategory = new Category();
-            //        var categoryDoc = category.ToBsonDocument();
-            //        addCategory.name = categoryDoc.GetElement("name").ToString();
-            //        List<string> values = new List<string>();
-            //        foreach(var value in categoryDoc.GetElement("values").Value.AsBsonArray)
-            //        {
-            //            values.Add(value.ToString());
-            //        }
-            //        addCategory.values = values;
-            //        categories.Add(addCategory);
-            //    }
-            //    question.categories = categories;
-            //    questions.Add(question);
-            //}
-            return View(questions);
-        }
         
         [HttpPost]
-        public async Task<ActionResult> saveNewTeam()
+        public async Task<ActionResult> SaveNewTeam()
         {
             Team newTeam = new Team();
             List<Student> studentList = new List<Student>();
             newTeam.TeamName = Request.Params["teamName"];
             int studentCount = Int32.Parse(Request.Params["counter"]);
-            for(int i=0;i<studentCount;i++)
+            for(int i = 0; i < studentCount;i++)
             {
                 Student addStudent = new Student();
                 addStudent.Name = Request.Params["student" + i.ToString()];
@@ -81,6 +49,30 @@ namespace _360Feedback.Controllers
             await Db.SaveChangesAsync();
             return Redirect("Index");
         }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteTeam()
+        {
+            Team deleteTeam = Db.Teams.Find(Int32.Parse(Request.Params["teamId"]));
+
+            Db.Teams.Remove(deleteTeam);
+            await Db.SaveChangesAsync();
+            return Redirect("Index");
+        }
+        
+        [HttpPost]
+        public ActionResult EditTeam()
+        {
+            Team editTeam = Db.Teams.Find(Int32.Parse(Request.Params["teamId"]));
+
+            return View("EditTeam", editTeam);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveTeam()
+        {
+            return Redirect("Index");
+        }
         
         public ActionResult Contact()
         {
@@ -90,22 +82,20 @@ namespace _360Feedback.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendEmailToTeam(Team _team)
+        public ActionResult SendEmailToTeam()
         {
             if (ModelState.IsValid)
             {
-                //var studentList = _team.Students.ToList();
-                //foreach (Student student in studentList)
-                //{
-                MailMessage mail = new MailMessage();
+                Team team = Db.Teams.Find(Request.Params["teamId"]);
 
-                //Change to student.email
-                    mail.To.Add("barterdm04@gmail.com");
+                foreach (Student student in team.Students)
+                {
+                    MailMessage mail = new MailMessage();
+                    mail.To.Add(student.Email);
                 mail.From = new MailAddress("wctcemailtest@gmail.com");
                 // mail.From = new MailAddress("MGreen14@wctc.edu");
                 mail.Subject = "ISP Team Review";
-
-                    string Body = "TEST";//GenerateEmailBody(student);
+                    string Body = GenerateEmailBody(student);
                 mail.Body = Body;
                 mail.IsBodyHtml = true;
                 SmtpClient smtp = new SmtpClient();
@@ -117,7 +107,8 @@ namespace _360Feedback.Controllers
                 // smtp.Credentials = new System.Net.NetworkCredential("MGreen14@wctc.edu", "PASSWORD");
                 smtp.EnableSsl = true;
                 smtp.Send(mail);
-                //}
+                }
+                
                 TempData["teamName"] = "Team Email Sent";
                 return RedirectToAction("Index");
 
@@ -130,16 +121,20 @@ namespace _360Feedback.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendEmailToStudent(Student _student)
+        public ActionResult SendEmailToStudent()
         {
             if (ModelState.IsValid)
             {
+                Student student = Db.Students.Find(Request.Params["studentEmail"]);
+
+                try
+                {
                 MailMessage mail = new MailMessage();
-                mail.To.Add(_student.Email);
+                    mail.To.Add(student.Email);
                 mail.From = new MailAddress("wctcemailtest@gmail.com");
                 // mail.From = new MailAddress("MGreen14@wctc.edu");
                 mail.Subject = "ISP Team Review";
-                string Body = GenerateEmailBody(_student);
+                    string Body = GenerateEmailBody(student);
                 mail.Body = Body;
                 mail.IsBodyHtml = true;
                 SmtpClient smtp = new SmtpClient();
@@ -152,8 +147,14 @@ namespace _360Feedback.Controllers
                 smtp.EnableSsl = true;
                 smtp.Send(mail);
 
-                TempData["studentName"] = "Studnet Email Sent";
+                    TempData[student.Name] = "- Student E-mail Sent";
+                    return RedirectToAction("Index");
+                }
+                catch (SmtpException e)
+                {
+                    TempData[student.Name] = "- Error Sending E-mail";
                 return RedirectToAction("Index");
+                }
 
             }
             else
@@ -165,10 +166,28 @@ namespace _360Feedback.Controllers
 
         public string GenerateEmailBody(Student _student)
         {
+            Byte[] encoded = GetBytes(_student.Email);
+            String base64userName = HttpServerUtility.UrlTokenEncode(encoded);
+
+            
             String body = "You have been invited to complete a survery on your teammates, please follow the link below to complete the survey: \n";
-            String url = "http://www.studentteamfeedback.com/Student/";
+            String url = "http://www.studentteamfeedback.com/Student/StudentView?id=" + base64userName;
             body += url;
             return body;
+        }
+
+        public static byte[] GetBytes(string str)
+        {
+            byte[] bytes = new byte[str.Length * sizeof(char)];
+            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            return bytes;
+        }
+
+        static string GetString(byte[] bytes)
+        {
+            char[] chars = new char[bytes.Length / sizeof(char)];
+            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
+            return new string(chars);
         }
     }
 }

@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "";
+    var counter = 0;
+    ViewBag.Title = "Edit Team";
+}
+
+@model _360Feedback.Models.Team
+@using _360Feedback.Models
+
+
+@Styles.Render("~/Content/css")
+
+<div class="row" id="teamBuilderDiv">
+    <div class="col-lg-6">
+        <h3>Edit team: @Model.TeamName</h3>
+        <hr />
+        <form id="formSave" name="formSave" method="POST" action='SaveTeam' style="margin-left:10px;">
+            <label for="teamName">Team Name:</label><br /><input type="text" name="teamName" id="teamName" value="@Model.TeamName" /><br /><br /><label>Student Names and Emails:</label><br />
+            @foreach (Student student in Model.Students)
+            {
+                var name = "name" + counter;
+                var email = "email" + counter;
+                <input type="text" name="@name" value="@student.Name" /><span>&nbsp;&nbsp;&nbsp;</span><input type="text" name="@email" value="@student.Email" /><br /><br />
+                counter++;
+            }
+            <span id="inputFields"></span><br /><br />
+            <input type="button" value="+" id="plus" />
+            <br /><br />
+            <input name="counter" id="counter" value="@counter" hidden />
+            <input type="submit" name="submit" id="btnSave" class="btn btn-lg" value="Save Team" />
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/edit.js" type="text/javascript"></script>
+}
