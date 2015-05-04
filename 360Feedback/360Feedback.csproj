@@ -173,7 +173,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MongoTestController.cs" />
-    <Compile Include="Controllers\SendEmailController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="DataContexts\FeedbackDb.cs" />
     <Compile Include="Global.asax.cs">
@@ -235,6 +234,7 @@
     <Content Include="Scripts\adminIndex.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="emailConfig.config" />
     <None Include="Properties\PublishProfiles\studentteamfeedback.com - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\edit.js" />
@@ -294,6 +294,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\File\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
