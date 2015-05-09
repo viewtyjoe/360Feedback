@@ -13,6 +13,7 @@ using System.Configuration;
 
 namespace _360Feedback.Controllers
 {
+    [Authorize(Roles="administrator")]
     public class HomeController : Controller
     {
         private FeedbackDb Db = new FeedbackDb();
