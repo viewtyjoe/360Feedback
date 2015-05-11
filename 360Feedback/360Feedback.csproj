@@ -300,6 +300,8 @@
     <Content Include="Views\Student\StudentView.cshtml" />
     <Content Include="Views\MongoTest\Add.cshtml" />
     <Content Include="Views\Home\EditTeam.cshtml" />
+    <Content Include="Views\Student\SaveResponse.cshtml" />
+    <Content Include="Views\Student\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

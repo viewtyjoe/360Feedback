@@ -6,7 +6,8 @@
 @model StudentViewModel
 
 @Styles.Render("~/Content/css")
-
+@{var outerCount = 0;}
+@{var counter = 0;}
 <link href="~/Content/students.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" />
 
@@ -19,62 +20,63 @@
         }
         </ul>
 
+    <form id="wholeTeamForm" class="ajaxForm" action="SaveResponse" method="post">
         @foreach (Student s in Model.TeamMembers)
         {
             var formId = "form" + s.StudentId;
-            var counter = 0;
-        <div id="@s.Email" class="questions">
-            <h3>Survey for @s.Name</h3>
-            <form id="@formId" class="ajaxForm" action="" method="post">
-            @foreach (Question q in Model.Questions)
-            {
-                <table>
-                    <thead>
-                        <tr>
-                                <th colspan="3" style="text-align:center;" class="title"><h4>@q.title</h4> **Question category description</th>
-                        </tr>
-                        <tr>
-                            <th>Area</th>
-                            <th>Choose which option best describes the student you are reviewing</th>
-                            <th>Option Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (Category c in q.categories)
-                        {
-                            var name = "question" + counter;
-                            var desc = "desc" + counter;
+            counter = 0;
+            var studentLabel = "student" + outerCount;
+            <div id="@s.Email" class="questions">
+                <h3>Survey for @s.Name</h3>
+                @foreach (Question q in Model.Questions)
+                {
+                    <table>
+                        <thead>
                             <tr>
-                                <td width="20%"><strong>@c.name</strong></td>
-                                <td width="20%">
-                                    <fieldset class="radioQuestion">
-                                        <label><input type="radio" name='@name' value="4" data-text="@c.Descriptions[3].Value" /> Professional </label><br />
-                                        <label><input type="radio" name='@name' value="3" data-text="@c.Descriptions[2].Value" /> Life/Acceptable </label> <br />
-                                        <label><input type="radio" name='@name' value="2" data-text="@c.Descriptions[1].Value" /> Introductory/Novice </label> <br />
-                                        <label><input type="radio" name='@name' value="1" data-text="@c.Descriptions[0].Value" /> Not Acceptable </label>
-                                    </fieldset>
-                                </td>
-                                <td width="60%">
-
-                                    <p id="@desc" style="font-weight:bold;"></p>
-                                </td>
+                                <th colspan="3" style="text-align:center;" class="title"><h4>@q.title</h4> **Question category description</th>
                             </tr>
-                            counter++;
-                        }
+                            <tr>
+                                <th>Area</th>
+                                <th>Choose which option best describes the student you are reviewing</th>
+                                <th>Option Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Category c in q.categories)
+                            {
+                                var name = "student" + outerCount + "question" + counter;
+                                var desc = "student" + outerCount + "desc" + counter;
+                                <tr>
+                                    <td width="20%"><strong>@c.name</strong></td>
+                                    <td width="20%">
+                                        <fieldset class="radioQuestion">
+                                            <label><input type="radio" name='@name' value="4" data-text="@c.Descriptions[3].Value" /> Professional </label><br />
+                                            <label><input type="radio" name='@name' value="3" data-text="@c.Descriptions[2].Value" /> Life/Acceptable </label> <br />
+                                            <label><input type="radio" name='@name' value="2" data-text="@c.Descriptions[1].Value" /> Introductory/Novice </label> <br />
+                                            <label><input type="radio" name='@name' value="1" data-text="@c.Descriptions[0].Value" /> Not Acceptable </label>
+                                        </fieldset>
+                                    </td>
+                                    <td width="60%">
 
-                    </tbody>
-                </table>
-            }
-            <input type="hidden" name="studentId" id="studentId" value="@s.StudentId" />
-                <input type="hidden" name="teamId" id="teamId" value="@s.Team.TeamId" />
-                <input type="hidden" name="studentIdFrom" id="studentIdFrom" value="@Model.Student.StudentId" />
-                <input type="hidden" name="questionCount" id="questionCount" value="@counter" />
-                <input type="hidden" name="response" id="response" />
+                                        <p id="@desc" style="font-weight:bold;"></p>
+                                    </td>
+                                </tr>
+                                counter++;
+                            }
+                        </tbody>
+                    </table>
+                }
+                @{outerCount++;}
+                <input type="hidden" name="@studentLabel" id="@studentLabel" value="@s.StudentId" />
                 <input type="submit" name="submit" id="btnSave" class="btn btn-lg" value="Save Questions" disabled />
                 <span id="formSuccess" class="hidden"></span>
-            </form>
-        </div>
+            </div>
         }
+        <input type="hidden" name="teamId" id="teamId" value="@Model.Student.Team.TeamId" />
+        <input type="hidden" name="studentIdFrom" id="studentIdFrom" value="@Model.Student.StudentId" />
+        <input type="hidden" name="questionCount" id="questionCount" value="@counter" />
+        <input type="hidden" name="studentCount" id="studentCount" value="@outerCount" />
+    </form>
 </div>
 @section Scripts{
     <script src="~/Scripts/jquery-ui.min.js"></script>

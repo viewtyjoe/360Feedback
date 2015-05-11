@@ -45,45 +45,49 @@ namespace _360Feedback.Controllers
             try
             {
                 var questionCount = Int32.Parse(Request.Params["questionCount"]);
-                string response = "";
+                var studentCount = Int32.Parse(Request.Params["studentCount"]);
+                int fromId = Int32.Parse(Request.Params["studentIdFrom"]);
+                Student studentFrom = await Db.Students.FindAsync(fromId);
                 List<Question> questions = Db.Questions.ToList<Question>();
                 List<Category> categories = Db.Categories.ToList<Category>();
-                Response saveResponse = new Response();
-                int fromId = Int32.Parse(Request.Params["studentIdFrom"]);
-                int forId = Int32.Parse(Request.Params["studentId"]);
-                if(Db.Response.Any<Response>(r => r.StudentFrom.StudentId == fromId && r.StudentFor.StudentId == forId))
+                for (int i = 0; i < studentCount; i++)
                 {
-                    Response oldResponse = Db.Response.First<Response>(r => r.StudentFrom.StudentId == fromId && r.StudentFor.StudentId == forId);
-                    Db.Response.Remove(oldResponse);
-                    await Db.SaveChangesAsync();
-                }
-                Student studentFrom = await Db.Students.FindAsync(fromId);
-                saveResponse.StudentFrom = studentFrom;
-                saveResponse.StudentFor = await Db.Students.FindAsync(forId);
-                for (int i = 0; i < questionCount; i++)
-                {
-                    response += Request.Params["question" + i];
-                    if(i < questionCount - 1)
+                    string response = "";
+                    Response saveResponse = new Response();
+                    int forId = Int32.Parse(Request.Params["student" + i]);
+                    if (Db.Response.Any<Response>(r => r.StudentFrom.StudentId == fromId && r.StudentFor.StudentId == forId))
                     {
-                        response += ",";
+                        Response oldResponse = Db.Response.First<Response>(r => r.StudentFrom.StudentId == fromId && r.StudentFor.StudentId == forId);
+                        Db.Response.Remove(oldResponse);
                     }
+                    saveResponse.StudentFrom = studentFrom;
+                    saveResponse.StudentFor = await Db.Students.FindAsync(forId);
+                    for (int j = 0; j < questionCount; j++)
+                    {
+                        response += Request.Params["student" + i + "question" + j];
+                        if (j < questionCount - 1)
+                        {
+                            response += ",";
+                        }
+                    }
+                    saveResponse.ResponseValues = response;
+                    var teamId = Int32.Parse(Request.Params["teamId"]);
+                    saveResponse.Team = await Db.Teams.FindAsync(teamId);
+                    Db.Response.Add(saveResponse);
                 }
-                saveResponse.ResponseValues = response;
-                var teamId = Int32.Parse(Request.Params["teamId"]);
-                saveResponse.Team = await Db.Teams.FindAsync(teamId);
-                Db.Response.Add(saveResponse);
+                studentFrom.Completed = true;
                 await Db.SaveChangesAsync();
-                if(Db.Response.Count(r => r.StudentFrom.StudentId == fromId) == (Db.Students.Count(s => s.Team.TeamId == teamId) - 1))
-                {
-                    studentFrom.Completed = true;
-                    await Db.SaveChangesAsync();
-                }
-                return new HttpStatusCodeResult(200);
+                return View();
             }
             catch(Exception e)
             {
-                return new HttpStatusCodeResult(500);
+                return RedirectToAction("Error");
             }
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
 
 
