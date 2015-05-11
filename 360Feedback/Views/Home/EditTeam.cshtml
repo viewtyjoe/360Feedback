@@ -1,5 +1,4 @@
 ﻿@{
-    Layout = "";
     var counter = 0;
     ViewBag.Title = "Edit Team";
 }
@@ -15,15 +14,18 @@
         <h3>Edit team: @Model.TeamName</h3>
         <hr />
         <form id="formSave" name="formSave" method="POST" action='SaveTeam' style="margin-left:10px;">
-            <label for="teamName">Team Name:</label><br /><input type="text" name="teamName" id="teamName" value="@Model.TeamName" /><br /><br /><label>Student Names and Emails:</label><br />
+            <label for="teamName">Team Name:</label><br /><input type="text" name="teamName" id="teamName" value="@Model.TeamName" /><input name="teamId" value="@Model.TeamId" hidden /><br /><br /><label>Student Names and Emails:</label><br />
             @foreach (Student student in Model.Students)
             {
-                var name = "name" + counter;
+                var name = "student" + counter;
                 var email = "email" + counter;
-                <input type="text" name="@name" value="@student.Name" /><span>&nbsp;&nbsp;&nbsp;</span><input type="text" name="@email" value="@student.Email" /><br /><br />
+                <input type="text" name="@name" value="@student.Name" /><span>&nbsp;&nbsp;&nbsp;</span><input type="text" name="@email" value="@student.Email" />
+                <button type="submit" formaction="RemoveStudent?emailDelete=@student.Email"  class="btn btn-warning" title="Remove Student">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button><br /><br />
                 counter++;
             }
-            <span id="inputFields"></span><br /><br />
+            <span id="inputFields"></span>
             <input type="button" value="+" id="plus" />
             <br /><br />
             <input name="counter" id="counter" value="@counter" hidden />

@@ -173,7 +173,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MongoTestController.cs" />
-    <Compile Include="Controllers\SendEmailController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="DataContexts\FeedbackDb.cs" />
     <Compile Include="Global.asax.cs">
@@ -211,6 +210,10 @@
     <Compile Include="Migrations\201505041508254_FeedbackDb050415.Designer.cs">
       <DependentUpon>201505041508254_FeedbackDb050415.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505080258080_Init.cs" />
+    <Compile Include="Migrations\201505080258080_Init.Designer.cs">
+      <DependentUpon>201505080258080_Init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -220,6 +223,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Response.cs" />
+    <Compile Include="Models\RoleAction.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentViewModel.cs" />
     <Compile Include="Models\Team.cs" />
@@ -239,6 +243,7 @@
     <Content Include="Scripts\adminIndex.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="emailConfig.config" />
     <None Include="Properties\PublishProfiles\studentteamfeedback.com - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\edit.js" />
@@ -298,6 +303,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\File\" />
+    <Folder Include="Views\RoleAction\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -336,6 +343,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505041508254_FeedbackDb050415.resx">
       <DependentUpon>201505041508254_FeedbackDb050415.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505080258080_Init.resx">
+      <DependentUpon>201505080258080_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

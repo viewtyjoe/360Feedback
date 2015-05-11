@@ -55,6 +55,7 @@ namespace _360Feedback.Controllers
                 {
                     Response oldResponse = Db.Response.First<Response>(r => r.StudentFrom.StudentId == fromId && r.StudentFor.StudentId == forId);
                     Db.Response.Remove(oldResponse);
+                    await Db.SaveChangesAsync();
                 }
                 Student studentFrom = await Db.Students.FindAsync(fromId);
                 saveResponse.StudentFrom = studentFrom;
@@ -62,7 +63,7 @@ namespace _360Feedback.Controllers
                 for (int i = 0; i < questionCount; i++)
                 {
                     response += Request.Params["question" + i];
-                    if(!(i < questionCount - 1))
+                    if(i < questionCount - 1)
                     {
                         response += ",";
                     }

@@ -5,15 +5,12 @@ function init() {
     var name = "student" + counter;
     var emailName = "email" + counter;
 
-    
-    $("#inputFields").html("<input type='text' name='" + name + "' placeholder='Student Name'>&nbsp;&nbsp;&nbsp;<input type='text' name='" + emailName + "' placeholder='Student E-mail'>")
-
     $("#plus").click(function () {
-        counter++;
         name = "student" + counter;
         emailName = "email" + counter;
-        $("#inputFields").append("<br><br><input type='text' name='" + name + "' placeholder='Student Name'>&nbsp;&nbsp;&nbsp;<input type='text' name='" + emailName + "' placeholder='Student E-mail'>")
+        $("#inputFields").append("<input type='text' name='" + name + "' placeholder='Student Name'>&nbsp;&nbsp;&nbsp;<input type='text' name='" + emailName + "' placeholder='Student E-mail'><br><br>")
         $("#counter").val(counter + 1);
         console.log($("#counter").val());
+        counter++;
     })
 }
