@@ -223,6 +223,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Response.cs" />
+    <Compile Include="Models\ResponseViewModel.cs" />
     <Compile Include="Models\RoleAction.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentViewModel.cs" />

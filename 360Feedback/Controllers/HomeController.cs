@@ -215,6 +215,19 @@ namespace _360Feedback.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Results(int studentId)
+        {
+            Student student = await Db.Students.FindAsync(studentId);
+            IEnumerable<Response> responses = from r in Db.Response.ToList<Response>()
+                                              where r.StudentFor.StudentId == studentId
+                                              select r;
+            ResponseViewModel rvm = new ResponseViewModel();
+            rvm.Responses = responses;
+            rvm.StudentFor = student;
+            return View(rvm);
+        }
+
         //Generates the body of the email by passing in the student and encoding their email and appending it
         //to the url for the student questions
         public string GenerateEmailBody(Student _student)
