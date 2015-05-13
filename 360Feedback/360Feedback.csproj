@@ -303,6 +303,7 @@
     <Content Include="Views\Home\EditTeam.cshtml" />
     <Content Include="Views\Student\SaveResponse.cshtml" />
     <Content Include="Views\Student\Error.cshtml" />
+    <Content Include="Views\Home\Results.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

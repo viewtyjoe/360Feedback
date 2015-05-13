@@ -215,15 +215,16 @@ namespace _360Feedback.Controllers
 
         }
 
-        [HttpGet]
         public async Task<ActionResult> Results(int studentId)
         {
             Student student = await Db.Students.FindAsync(studentId);
-            IEnumerable<Response> responses = from r in Db.Response.ToList<Response>()
+            IEnumerable<Response> responses = from r in Db.Response
                                               where r.StudentFor.StudentId == studentId
                                               select r;
+            List<Response> responseList = responses.ToList<Response>();
             ResponseViewModel rvm = new ResponseViewModel();
-            rvm.Responses = responses;
+            rvm.Questions = Db.Questions.ToList<Question>();
+            rvm.Responses = responseList;
             rvm.StudentFor = student;
             return View(rvm);
         }

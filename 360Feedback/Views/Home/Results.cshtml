@@ -1,0 +1,46 @@
+﻿@model _360Feedback.Models.ResponseViewModel
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<h2>Results for @Model.StudentFor.Name</h2>
+
+@{int i = 0;}
+
+    @foreach (var q in Model.Questions)
+    { 
+        <h4>@q.title</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>
+                    Category
+                    </td>
+                    <td>
+                        Average
+                    </td>
+                    <td>
+                        Individual Responses
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in q.categories)
+                {
+                <tr>
+                    <td>@c.name</td>
+                    <td>@Model.Averages[i]</td>
+                    <td>
+                        @foreach (var l in Model.NumericValues)
+                        {
+                            @l[i]
+                        }
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+            i++;
+    }
+</ul>
