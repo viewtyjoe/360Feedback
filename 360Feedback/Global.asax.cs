@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
+
 namespace _360Feedback
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -16,6 +17,9 @@ namespace _360Feedback
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            _360Feedback.Models.RoleAction roleActions = new _360Feedback.Models.RoleAction();
+            roleActions.AddUserAndRole();
         }
     }
 }
