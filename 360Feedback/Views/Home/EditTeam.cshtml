@@ -19,8 +19,11 @@
             {
                 var name = "student" + counter;
                 var email = "email" + counter;
+                var id = "id" + counter;
+                
                 <input type="text" name="@name" value="@student.Name" /><span>&nbsp;&nbsp;&nbsp;</span><input type="text" name="@email" value="@student.Email" />
-                <button type="submit" formaction="RemoveStudent?emailDelete=@student.Email"  class="btn btn-warning" title="Remove Student">
+                <input type="hidden" name="@id" value="@student.StudentId" />
+                <button type="submit" formaction="RemoveStudent?idDelete=@student.StudentId"  class="btn btn-warning" title="Remove Student">
                     <i class="glyphicon glyphicon-remove"></i>
                 </button><br /><br />
                 counter++;

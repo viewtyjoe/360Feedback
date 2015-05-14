@@ -86,8 +86,8 @@ namespace _360Feedback.Controllers
             {
                 if (!(Request.Params["email" + i.ToString()] == null) && !(Request.Params["student" + i.ToString()] == null))
                 {
-                    if(!(Db.Students.Find(Request.Params["email" + i.ToString()]) == null)){
-                        Student editStudent = Db.Students.Find(Request.Params["email" + i.ToString()]);
+                    if(!(Int32.Parse(Request.Params["id" + i.ToString()]) == 0)){
+                        Student editStudent = Db.Students.Find(Int32.Parse(Request.Params["id" + i.ToString()]));
                         editStudent.Name = Request.Params["student" + i.ToString()];
                         editStudent.Email = Request.Params["email" + i.ToString()];
                         await Db.SaveChangesAsync();
@@ -110,10 +110,10 @@ namespace _360Feedback.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult> RemoveStudent(String studentEmail)
+        public async Task<ActionResult> RemoveStudent()
         {
             Team editTeam = Db.Teams.Find(Int32.Parse(Request.Params["teamId"]));
-            Student removeStudent = Db.Students.Find(Request.Params["emailDelete"]);
+            Student removeStudent = Db.Students.Find(Int32.Parse(Request.Params["idDelete"]));
             editTeam.Students.Remove(removeStudent);
             Db.Students.Remove(removeStudent);
             await Db.SaveChangesAsync();
@@ -179,7 +179,7 @@ namespace _360Feedback.Controllers
         {
             if (ModelState.IsValid)
             {
-                Student student = Db.Students.Find(Int32.Parse(Request.Params["studentEmail"]));
+                Student student = Db.Students.Find(Int32.Parse(Request.Params["studentId"]));
 
                 try
                 {
